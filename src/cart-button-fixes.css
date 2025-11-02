@@ -21,8 +21,6 @@
 
 /* Стили для кнопки добавления в корзину - УМЕНЬШЕННЫЙ РАЗМЕР */
 .add-to-cart {
-  width: 100%;
-  max-width: 100%;
   padding: 8px 12px;           /* было 0.5rem 0.75rem */
   font-size: 0.75rem;          /* компактный текст */
   font-weight: 600;
@@ -76,7 +74,7 @@
 }
 
 /* Тёмная тема */
-[data-theme="dark"] .add-to-cart { color: #1e293b; }
+[data-theme="dark"] .add-to-cart { color: #f1f5f9; }
 [data-theme="dark"] .add-to-cart.in-cart { color: #fff; }
 
 /* Фокус */

@@ -1,4 +1,7 @@
 import { Cart, updateCartUI } from './cart.js';
+import './categories-marketplace.js';
+import './categories.patch.js';
+import './catalog-enhanced.js';
 
 // Глобальные переменные для отслеживания состояния
 let themeObserver = null;
@@ -9,10 +12,10 @@ let iconUpdateTimeout = null;
 function updateCartIconsForTheme(theme) {
   if (isUpdatingIcons) return;
   isUpdatingIcons = true;
-  
+
   const isDark = theme === 'dark';
   const iconColor = isDark ? '#f1f5f9' : '#1e293b';
-  
+
   // Обновляем только необходимые иконки
   const svgSelectors = [
     '#cart-btn svg',
@@ -22,7 +25,7 @@ function updateCartIconsForTheme(theme) {
     '.add-to-cart svg',
     '.header-actions svg'
   ];
-  
+
   svgSelectors.forEach(selector => {
     const elements = document.querySelectorAll(selector);
     elements.forEach(el => {
@@ -33,19 +36,22 @@ function updateCartIconsForTheme(theme) {
       }
     });
   });
-  
+
   // Очищаем флаг через короткий таймаут
   setTimeout(() => {
     isUpdatingIcons = false;
   }, 50);
 }
 
+// Make function available globally
+window.updateCartIconsForTheme = updateCartIconsForTheme;
+
 // Оптимизированная функция принудительного обновления
 function debounceIconUpdate() {
   if (iconUpdateTimeout) {
     clearTimeout(iconUpdateTimeout);
   }
-  
+
   iconUpdateTimeout = setTimeout(() => {
     const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
     updateCartIconsForTheme(currentTheme);
@@ -58,12 +64,12 @@ function cleanup() {
     themeObserver.disconnect();
     themeObserver = null;
   }
-  
+
   if (iconUpdateTimeout) {
     clearTimeout(iconUpdateTimeout);
     iconUpdateTimeout = null;
   }
-  
+
   isUpdatingIcons = false;
 }
 
@@ -71,51 +77,40 @@ function cleanup() {
 window.addEventListener('beforeunload', cleanup);
 window.addEventListener('pagehide', cleanup);
 
+const KEY='theme';
+const root=document.documentElement;
+const btn=document.getElementById('theme-toggle');
+
+function apply(t){
+  root.setAttribute('data-theme', t);
+  localStorage.setItem(KEY, t);
+  if (window.updateCartIconsForTheme) window.updateCartIconsForTheme(t);
+  const themeIcon = document.querySelector('#theme-toggle .theme-icon');
+  if (themeIcon) {
+    themeIcon.textContent = t === 'dark' ? '☀️' : '🌙';
+  }
+}
+function init(){
+  if (window.__themeInitDone) return;
+  window.__themeInitDone = true;
+  const saved = localStorage.getItem(KEY);
+  const prefersDark = matchMedia('(prefers-color-scheme: dark)').matches;
+  apply(saved || (prefersDark ? 'dark' : 'light'));
+  btn?.addEventListener('click', () => {
+    apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+}
+init();
+if (import.meta.hot){
+  import.meta.hot.dispose(() => {
+    window.__themeInitDone = false;
+    btn?.replaceWith(btn.cloneNode(true));
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Initialize cart UI
   updateCartUI();
-  
-  // Theme toggle functionality - улучшенная логика
-  const themeToggle = document.getElementById('theme-toggle');
-  const themeIcon = themeToggle?.querySelector('.theme-icon');
-  const currentTheme = localStorage.getItem('theme') || 'light';
-  
-  // Применяем тему при загрузке
-  document.documentElement.setAttribute('data-theme', currentTheme);
-  if (themeIcon) {
-    themeIcon.textContent = currentTheme === 'dark' ? '☀️' : '🌙';
-  }
-  
-  // Однократное обновление иконок при загрузке
-  requestAnimationFrame(() => {
-    updateCartIconsForTheme(currentTheme);
-  });
-
-  // Обработчик переключения темы - без дублирования
-  if (themeToggle) {
-    // Убираем все старые обработчики
-    const newThemeToggle = themeToggle.cloneNode(true);
-    themeToggle.parentNode.replaceChild(newThemeToggle, themeToggle);
-    const newThemeIcon = newThemeToggle.querySelector('.theme-icon');
-    
-    newThemeToggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      
-      const current = document.documentElement.getAttribute('data-theme');
-      const newTheme = current === 'dark' ? 'light' : 'dark';
-      
-      // Применяем новую тему
-      document.documentElement.setAttribute('data-theme', newTheme);
-      localStorage.setItem('theme', newTheme);
-      
-      if (newThemeIcon) {
-        newThemeIcon.textContent = newTheme === 'dark' ? '☀️' : '🌙';
-      }
-      
-      // Отложенное обновление иконок
-      debounceIconUpdate();
-    });
-  }
 
   // Cart modal functionality
   const cartBtn = document.getElementById('cart-btn');

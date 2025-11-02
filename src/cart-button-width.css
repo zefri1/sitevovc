@@ -13,8 +13,8 @@
 /* Только ширина: делаем кнопку уже, остальное не трогаем */
 .product-card .add-to-cart,
 .add-to-cart {
-  width: 80%;           /* было 100% */
-  max-width: 260px;     /* ограничитель, чтобы на широких карточках не расползалась */
+  width: auto;           /* Allow the button to size based on content */
+  max-width: 150px;     /* Limit the maximum width for better appearance */
 }
 
 /* Остальной существующий стиль остаётся без изменений */

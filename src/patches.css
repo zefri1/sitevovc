@@ -1,46 +1,799 @@
-/* smoother animations for cards */
-.product-card{will-change:transform}
-.product-card:hover{transform:translateY(-4px)}
-
-/* modal qty inline spacing */
-.modal__actions .product-qty{margin-left:.5rem}
-
-/* Равные размеры кнопок в модалке */
-.modal__actions{display:flex;align-items:center;gap:1rem}
-.modal__actions .btn{height:64px;min-height:64px;padding:0 18px;border-radius:12px;display:inline-flex;align-items:center}
-.modal__actions #modal-add-to-cart{flex:1}
-.modal__actions #modal-phone-btn{width:180px}
-.modal__actions #modal-vk-btn{width:64px;min-width:64px;padding:0;justify-content:center;margin-left:auto}
-.modal__actions #modal-vk-btn .icon{width:24px;height:24px}
-
-/* Единый размер иконки и текста в кнопке корзины модалки */
-.modal__actions #modal-add-to-cart .icon{width:28px;height:28px;margin-right:.5rem}
-.modal__actions #modal-add-to-cart .cart-text{font-size:16px}
-
-/* Круглая VK и hover - только в модалке */
-.modal__actions #modal-vk-btn{border-radius:999px}
-.modal__actions #modal-vk-btn:hover{background:var(--color-primary);border-color:var(--color-primary);color:#fff}
-
-/* VK в модалках: скрыть span только для VK кнопок, не для всех кнопок */
-.modal__actions a.btn[title="Написать в VK"] span,
-.cart-actions a.btn[title="Написать в VK"] span {
-  display: none;
-}
-
-/* Карточки каталога: кнопка В корзину с текстом и иконкой */
-.products-grid .product-card{display:flex;flex-direction:column}
-.product-card .product-actions{margin-top:auto}
-.product-card .add-to-cart{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  gap:.5rem;
-  height:64px;
-  padding:0 16px;
+/* VK как кнопка */
+/* VK: ровная высота, стеклянная подложка, приятный hover/focus */
+#modal-vk-btn.btn.btn-secondary{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:44px; min-width:44px; padding:0 10px; gap:0;
   border-radius:12px;
-  white-space:nowrap;
-  font-size:16px;
-  min-width:180px;
+  background: rgba(255,255,255,.06); /* стеклянная подложка */
+  box-shadow: 0 1px 0 rgba(255,255,255,.15) inset, 0 4px 16px rgba(0,0,0,.15);
+  backdrop-filter: blur(4px);
+  transition: transform .12s ease, background-color .12s ease, box-shadow .12s ease;
+  vertical-align: middle;
 }
-.product-card .add-to-cart .icon{width:20px;height:20px;flex-shrink:0}
-.product-card .add-to-cart span{display:inline-block}
+
+/* Светлая тема — тоньше контраст и лёгкая рамка */
+html:not([data-theme="dark"]) #modal-vk-btn.btn.btn-secondary{
+  background: rgba(0,0,0,.04);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 4px 12px rgba(0,0,0,.10);
+}
+
+/* Иконка: ровный размер, без смещения */
+#modal-vk-btn img, #modal-vk-btn svg{
+  width:20px; height:20px; display:block; flex:0 0 20px;
+}
+
+/* Hover/active: чуть ярче и «нажалась», без скачков */
+#modal-vk-btn.btn.btn-secondary:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.10);
+}
+
+#modal-vk-btn.btn.btn-secondary:active{
+  transform: translateY(0);
+  box-shadow: 0 0 0 rgba(0,0,0,0), 0 2px 8px rgba(0,0,0,.12) inset;
+}
+
+/* Фокусный ring для клавиатуры */
+#modal-vk-btn.btn.btn-secondary:focus-visible{
+  outline: 0;
+  box-shadow: 0 0 0 3px rgba(88,130,193,.35), 0 4px 16px rgba(0,0,0,.18);
+}
+
+/* Чуть отодвинуть от кнопки «Позвонить», если надо */
+/* Контейнер кнопок в модалке: ровное выравнивание и интервалы */
+.modal-actions, .product-modal .actions, .modal-footer .actions {
+  display: flex; align-items: center; justify-content: center;
+  gap: 24px; flex-wrap: nowrap;
+}
+
+/* Унифицируем высоту всех кнопок в ряду */
+.product-modal .actions .btn,
+.modal-actions .btn { height: 44px; border-radius: 12px; }
+
+/* VK в модалке — как «ghost»-кнопка */
+.product-modal #modal-vk-btn.btn.btn-secondary{
+  display:inline-flex; align-items:center; justify-content:center;
+  min-width:44px; height:44px; padding:0 10px;
+  border-radius:12px; vertical-align:middle;
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 1px 0 rgba(255,255,255,.15) inset, 0 4px 16px rgba(0,0,0,.15);
+  backdrop-filter: blur(4px);
+  transition: transform .12s ease, background-color .12s ease, box-shadow .12s ease;
+  border: none;
+}
+html:not([data-theme="dark"]) .product-modal #modal-vk-btn.btn.btn-secondary{
+  background: rgba(0,0,0,.04);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 4px 12px rgba(0,0,0,.10);
+  border: none;
+}
+.product-modal #modal-vk-btn.btn.btn-secondary:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+html:not([data-theme="dark"]) .product-modal #modal-vk-btn.btn.btn-secondary:hover{ background: rgba(0,0,0,.06); }
+.product-modal #modal-vk-btn.btn.btn-secondary:focus-visible{
+  outline:0; box-shadow:0 0 0 3px rgba(88,130,193,.35), 0 4px 16px rgba(0,0,0,.18);
+}
+
+/* Размер иконки VK */
+.product-modal #modal-vk-btn img,
+.product-modal #modal-vk-btn svg{ width:20px; height:20px; display:block; }
+
+/* Чуть отодвинуть от кнопки «Позвонить», если надо */
+#modal-vk-btn.btn.btn-secondary{ margin-left: 10px; }
+
+/* CART MODAL — drop-in patch for src/patches.css
+   Совместимость с разметкой модалок товара/корзины.
+   Поддержка как c дефисами, так и без (на случай минификации/сборки). */
+
+/* ---------- Visibility & transitions (attribute-driven) ---------- */
+#cart-modal[aria-hidden="true"] .modal-backdrop,
+#cart-modal[aria-hidden="true"] .modalbackdrop { opacity: 0; pointer-events: none; }
+
+#cart-modal[aria-hidden="true"] .modal-dialog,
+#cart-modal[aria-hidden="true"] .modaldialog {
+  opacity: 0;
+  transform: translateY(8px) scale(.98);
+}
+
+#cart-modal[aria-hidden="false"] .modal-backdrop,
+#cart-modal[aria-hidden="false"] .modalbackdrop { opacity: 1; pointer-events: auto; }
+
+#cart-modal[aria-hidden="false"] .modal-dialog,
+#cart-modal[aria-hidden="false"] .modaldialog {
+  opacity: 1;
+  transform: none;
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+/* ---------- Backdrop ---------- */
+#cart-modal .modal-backdrop,
+#cart-modal .modalbackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  transition: opacity .22s ease;
+}
+
+/* ---------- Dialog shell ---------- */
+#cart-modal .modal-dialog,
+#cart-modal .modaldialog {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 6vh 16px;
+  z-index: 1000;
+}
+
+#cart-modal .modal-content,
+#cart-modal .modalcontent {
+  width: min(720px, 96vw);
+  max-height: min(85vh, 900px);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  padding: clamp(12px, 2vw, 20px);
+  background: var(--color-surface, #ffffff);
+  color: var(--color-text, #0f172a);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: var(--shadow-lg, 0 20px 60px rgba(0,0,0,.25));
+  outline: none;
+}
+
+/* ---------- Close button (reuses global .modal-close) ---------- */
+#cart-modal .modal-close,
+#cart-modal .modalclose {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #0f172a);
+  cursor: pointer;
+  transition: background-color .15s ease, transform .05s ease;
+}
+#cart-modal .modal-close:hover,
+#cart-modal .modalclose:hover { background: var(--color-surface-hover, #f8fafc); }
+#cart-modal .modal-close:active,
+#cart-modal .modalclose:active { transform: scale(.96); }
+#cart-modal .modal-close:focus-visible,
+#cart-modal .modalclose:focus-visible { outline: 2px solid var(--color-primary, #0ea5e9); outline-offset: 2px; }
+
+/* ---------- Header ---------- */
+#cart-modal .modal-title,
+#cart-modal .modaltitle {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
+  font-size: clamp(18px, 2.2vw, 22px);
+}
+
+/* ---------- Cart list ---------- */
+#cart-modal .cart-list {
+  display: grid;
+  gap: .75rem;
+  overflow: auto;
+  padding-right: 4px;             /* room for scrollbar */
+  scrollbar-gutter: stable both-edges;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Пустая корзина */
+#cart-modal .cart-empty {
+  display: grid;
+  place-items: center;
+  gap: .5rem;
+  padding: 1.25rem;
+  border: 1px dashed var(--color-border, #e5e7eb);
+  border-radius: var(--radius-md, 10px);
+  color: var(--color-text-muted, #6b7280);
+  background: var(--color-surface-2, #fafafa);
+}
+
+/* ---------- Cart item (structure-agnostic defaults) ---------- */
+#cart-modal .cart-item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto auto;
+  align-items: center;
+  gap: .75rem;
+  padding: .5rem;
+  border-radius: var(--radius-md, 10px);
+  border: 1px solid var(--color-border-light, rgba(0,0,0,.08));
+  background: var(--color-surface, #fff);
+}
+
+#cart-modal .cart-thumb {
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: var(--color-surface-2, #f3f4f6);
+  display: grid;
+  place-items: center;
+}
+
+#cart-modal .cart-item-title {
+  font-weight: 500;
+  line-height: 1.3;
+  color: inherit;
+}
+
+#cart-modal .cart-price {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ---------- Qty controls (matches existing classes) ---------- */
+#cart-modal .cart-qty {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+#cart-modal .qty-btn {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #0f172a);
+  cursor: pointer;
+  transition: background-color .15s ease, transform .05s ease, border-color .15s ease;
+  user-select: none;
+}
+#cart-modal .qty-btn:hover { background: var(--color-surface-hover, #f8fafc); }
+#cart-modal .qty-btn:active { transform: scale(.96); }
+#cart-modal .qty-btn:focus-visible { outline: 2px solid var(--color-primary, #0ea5e9); outline-offset: 2px; }
+
+#cart-modal .qty-value {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Удаление товара (если есть кнопка) */
+#cart-modal .remove-btn {
+  color: var(--color-text-muted, #6b7280);
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: background-color .15s ease, color .15s ease, border-color .15s ease;
+}
+#cart-modal .remove-btn:hover { color: var(--color-danger, #dc2626); background: var(--color-surface-hover, #f8fafc); }
+
+/* ---------- Footer ---------- */
+#cart-modal .cart-footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding-top: .5rem;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+#cart-modal .cart-total {
+  font-size: clamp(16px, 1.8vw, 18px);
+  font-weight: 700;
+}
+
+/* Кнопки действий: используем уже существующие .btn/.btn-primary/.btn-secondary */
+#cart-modal .cart-actions {
+  display: flex;
+  gap: .5rem;
+  justify-content: flex-end;
+}
+#cart-modal .cart-actions .btn {
+  height: 40px;
+  min-width: 40px;
+  padding-inline: .875rem;
+  border-radius: 10px;
+}
+
+/* ---------- Responsive tweaks ---------- */
+@media (min-width: 480px) {
+  #cart-modal .modal-content,
+  #cart-modal .modalcontent { width: min(640px, 96vw); }
+}
+@media (min-width: 768px) {
+  #cart-modal .modal-content,
+  #cart-modal .modalcontent { width: min(720px, 94vw); }
+}
+
+/* ---------- CART MODAL FIXES ---------- */
+
+/* Шапка и базовая сетка */
+#cart-modal .modal-content,
+#cart-modal .modalcontent {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 12px;
+  padding: 16px;
+}
+
+/* Заголовок и крестик */
+#cart-modal .modaltitle,
+#cart-modal .modal-title {
+  margin: 0 44px 8px 0; /* место под крестик */
+  font-weight: 600;
+}
+
+#cart-modal .modal-close,
+#cart-modal .modalclose {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff);
+  color: var(--color-text, #0f172a);
+}
+
+/* Секция со списком — прокручивается только она */
+#cart-modal .cart-list {
+  min-height: 160px;
+  max-height: min(58vh, 620px);
+  overflow: auto;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff);
+  display: grid;
+  align-content: start;
+  gap: 10px;
+  scrollbar-gutter: stable both-edges;
+}
+
+/* Пустая корзина — менее навязчиво */
+#cart-modal .cart-empty {
+  display: grid;
+  place-items: center;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 10px;
+  border: 1px dashed color-mix(in oklab, var(--color-border, #e5e7eb) 70%, transparent);
+  background: color-mix(in oklab, var(--color-surface, #fff) 90%, transparent);
+  color: var(--color-text-muted, #6b7280);
+}
+#cart-modal .cart-empty .icon,
+#cart-modal .cart-empty svg {
+  width: 56px; height: 56px; opacity: .22;
+}
+
+/* Элемент списка (на будущее, когда будут товары) */
+#cart-modal .cart-item {
+  display: grid;
+  grid-template-columns: 56px 1fr auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--color-border-light, rgba(0,0,0,.08));
+  background: var(--color-surface, #fff);
+}
+
+/* Контролы количества */
+#cart-modal .cart-qty { display: flex; align-items: center; gap: 8px; }
+#cart-modal .qty-btn {
+  width: 32px; height: 32px; border-radius: 6px;
+  border: 1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff);
+  display: grid; place-items: center; cursor: pointer;
+}
+#cart-modal .qty-value { min-width: 22px; text-align: center; font-weight: 600; }
+
+/* Футер фиксированной высоты и выравнивание кнопок */
+#cart-modal .cart-footer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border, #e5e7eb);
+}
+
+#cart-modal .cart-total { font-weight: 700; }
+
+/* Кнопки действий: читаемые иконки и единый размер */
+#cart-modal .cart-actions { display: flex; gap: 8px; justify-content: flex-end; }
+#cart-modal .cart-actions .btn {
+  height: 40px; min-width: 40px; padding-inline: 12px; border-radius: 10px;
+  display: inline-grid; place-items: center; gap: 8px;
+}
+#cart-modal .cart-actions .btn svg,
+#cart-modal .cart-actions .btn .icon {
+  width: 18px; height: 18px; flex: 0 0 18px;
+}
+
+/* Если VK-кнопка круглая-иконка без текста — делаем «пилюлю» */
+#cart-modal .cart-actions a[aria-label="VK"],
+#cart-modal .cart-actions a[title="VK"] {
+  padding: 0; width: 40px; min-width: 40px; border-radius: 50%;
+}
+
+/* Тёмная тема: сохраняем контраст иконок */
+@media (prefers-color-scheme: dark) {
+  #cart-modal .modal-close { background: var(--color-surface, #111827); border-color: #253042; color: var(--color-text, #e5e7eb); }
+  #cart-modal .cart-list { border-color: #253042; background: var(--color-surface, #0b1220); }
+  #cart-modal .cart-empty { border-color: color-mix(in oklab, #253042 70%, transparent); }
+}
+
+/* ---------- ACTIONS LANE (единая высота кнопок) ---------- */
+.modal-actions, .product-modal .actions, .modal-footer .actions, 
+#cart-modal .cart-actions {
+  display:flex; align-items:center; gap:12px; flex-wrap:nowrap;
+}
+.modal-actions .btn, .product-modal .actions .btn, #cart-modal .cart-actions .btn {
+  height:44px; border-radius:12px;
+}
+
+/* ---------- VK GHOST BUTTON (в товаре и корзине) ---------- */
+#modal-vk-btn.btn.btn-secondary{
+  display:inline-flex; align-items:center; justify-content:center;
+  height:44px; min-width:44px; padding:0 10px; gap:8px; border-radius:12px;
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 1px 0 rgba(255,255,255,.15) inset, 0 4px 16px rgba(0,0,0,.15);
+  color: var(--vk-fg-dark, #ffffff);
+  backdrop-filter: blur(4px);
+  transition: transform .12s ease, background-color .12s ease, box-shadow .12s ease;
+  border: none; vertical-align: middle;
+}
+html:not([data-theme="dark"]) #modal-vk-btn.btn.btn-secondary{
+  background: rgba(0,0,0,.04);
+  box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 4px 12px rgba(0,0,0,.10);
+  color: var(--vk-fg-light, #1f2937);
+}
+#modal-vk-btn img, #modal-vk-btn svg{ width:20px; height:20px; display:block; flex:0 0 20px; }
+#modal-vk-btn svg, #modal-vk-btn svg *{ fill: currentColor; }
+#modal-vk-btn.btn.btn-secondary:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+html:not([data-theme="dark"]) #modal-vk-btn.btn.btn-secondary:hover{ background: rgba(0,0,0,.06); }
+#modal-vk-btn.btn.btn-secondary:active{ transform: translateY(0); box-shadow: 0 0 0 rgba(0,0,0,0), 0 2px 8px rgba(0,0,0,.12) inset; }
+#modal-vk-btn.btn.btn-secondary:focus-visible{ outline:0; box-shadow: 0 0 0 3px rgba(88,130,193,.35), 0 4px 16px rgba(0,0,0,.18); }
+#modal-vk-btn.btn.btn-secondary{ margin-left:10px; }
+
+/* ---------- CART MODAL SHELL ---------- */
+#cart-modal .modal-content, #cart-modal .modalcontent{
+  display:grid; grid-template-rows:auto 1fr auto; gap:12px; padding:16px;
+}
+#cart-modal .modal-title, #cart-modal .modaltitle{ margin:0 44px 8px 0; font-weight:600; }
+
+/* Close — не перекрывает заголовок */
+#cart-modal .modal-close, #cart-modal .modalclose{
+  position:absolute; top:10px; right:10px; width:36px; height:36px;
+  display:grid; place-items:center; border-radius:50%;
+  border:1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff); color: var(--color-text, #0f172a);
+}
+
+/* ---------- SCROLL AREA ONLY FOR LIST ---------- */
+#cart-modal .cart-list{
+  min-height:160px; max-height:min(58vh, 620px); overflow:auto;
+  padding:12px; border-radius:12px;
+  border:1px solid var(--color-border, #e5e7eb);
+  background: var(--color-surface, #fff);
+  display:grid; align-content:start; gap:10px; scrollbar-gutter:stable both-edges;
+}
+
+/* ---------- EMPTY STATE (приглушённое) ---------- */
+#cart-modal .cart-empty{
+  display:grid; place-items:center; gap:8px; padding:18px; border-radius:10px;
+  border:1px dashed color-mix(in oklab, var(--color-border, #e5e7eb) 70%, transparent);
+  background: color-mix(in oklab, var(--color-surface, #fff) 90%, transparent);
+  color: var(--color-text-muted, #6b7280);
+}
+#cart-modal .cart-empty .icon, #cart-modal .cart-empty svg{ width:56px; height:56px; opacity:.22; }
+
+/* ---------- FOOTER (не прыгает) ---------- */
+#cart-modal .cart-footer{
+  display:grid; grid-template-columns:1fr auto; align-items:center; gap:12px;
+  padding-top:8px; border-top:1px solid var(--color-border, #e5e7eb);
+}
+#cart-modal .cart-total{ font-weight:700; }
+
+/* ---------- DARK THEME TWEAKS ---------- */
+@media (prefers-color-scheme: dark){
+  #cart-modal .cart-list{ border-color:#253042; background: var(--color-surface, #0b1220); }
+  #cart-modal .modal-close{ background: var(--color-surface, #111827); border-color:#253042; color: var(--color-text, #e5e7eb); }
+  #cart-modal .cart-empty{ border-color: color-mix(in oklab, #253042 70%, transparent); }
+}
+
+/* Сдвинуть VK + Позвонить левее, сохранив между ними расстояние */
+#cart-modal .cart-actions {
+  padding-right: 12px !important; /* подбери значение */
+}
+
+
+
+/* Кнопка «Позвонить»: подъём на hover без смены цвета */
+#cart-modal .cart-actions .btn.btn-primary,
+#product-modal .modal-actions .btn.btn-primary {
+  /* зафиксируем базовые цвета одной парой переменных */
+  --call-bg: var(--btn-primary-bg, var(--color-surface, #e4e7eb)) !important ; 
+  --call-fg: var(--btn-primary-fg, var(--color-text, #000)) !important ;
+
+  background-color: var(--call-bg) !important;
+  color: var(--call-fg) !important;
+
+  /* анимируем только подъём/тень */
+  transition: transform 160ms ease, box-shadow 160ms ease !important ;
+  transform: translateY(0) !important ;
+}
+
+#cart-modal .cart-actions .btn.btn-primary:hover,
+#product-modal .modal-actions .btn.btn-primary:hover {
+  /* цвет остаётся прежним */
+  background-color: var(--call-bg) !important;
+  color: var(--call-fg) !important;
+
+  /* подъём */
+  transform: translateY(-2px) !important ;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.18) !important ;
+}
+
+#cart-modal .cart-actions .btn.btn-primary {
+  transform: translateY(6px) !important; /* подбери 2–4px */
+  will-change: transform;
+}
+
+/* Центровка содержимого кнопки «Позвонить» */
+#cart-modal .cart-actions .btn.btn-primary,
+#product-modal .modal-actions .btn.btn-primary {
+  display: inline-flex;       /* включаем флекс-выровнивание */
+  align-items: center;        /* по вертикали центр */
+  justify-content: center;    /* по горизонтали центр */
+  gap: 8px;                   /* расстояние между иконкой и текстом */
+  text-align: center;         /* страховка для текста */
+  line-height: 1;             /* убираем смещение по базовой линии */
+  padding: 10px 16px;         /* симметричные отступы */
+  min-height: 44px;           /* достаточная высота клика */
+}
+
+/* На случай вложенных элементов внутри кнопки */
+#cart-modal .cart-actions .btn.btn-primary > *,
+#product-modal .modal-actions .btn.btn-primary > * {
+  line-height: 1;             /* исключаем «прыжки» дочерних inline-элементов */
+}
+
+/* «Позвонить»: всегда чёрный текст */
+#cart-modal .cart-actions .btn.btn-primary,
+#product-modal .modal-actions .btn.btn-primary {
+  color: #000 !important;
+}
+
+#cart-modal .cart-actions .btn.btn-primary:hover,
+#cart-modal .cart-actions .btn.btn-primary:focus,
+#cart-modal .cart-actions .btn.btn-primary:active,
+#product-modal .modal-actions .btn.btn-primary:hover,
+#product-modal .modal-actions .btn.btn-primary:focus,
+#product-modal .modal-actions .btn.btn-primary:active {
+  color: #000 !important;   /* фиксируем во всех интерактивных состояниях */
+  text-decoration: none !important;
+}
+
+/* «Позвонить»: фиксируем жёлтый градиент и подъём на hover */
+#cart-modal .cart-actions .btn.btn-primary,
+#product-modal .modal-actions .btn.btn-primary {
+  /* единый источник градиента с запасными вариантами */
+  --call-gradient: var(--btn-primary-gradient,
+                       var(--button-primary-gradient,
+                       linear-gradient(180deg,#FFD54A 0%,#E4B41C 100%)));
+
+  background-image: var(--call-gradient) !important;
+  background-color: transparent !important;  /* не даём цвету перекрыть градиент */
+  color: #000 !important;
+
+  filter: none !important;
+  opacity: 1 !important;
+  background-blend-mode: normal !important;
+
+  transition: transform 160ms ease, box-shadow 160ms ease,
+              background-image 0s, background-color 0s, filter 0s, opacity 0s;
+  transform: translateY(0);
+  will-change: transform;
+}
+
+#cart-modal .cart-actions .btn.btn-primary:hover,
+#cart-modal .cart-actions .btn.btn-primary:focus,
+#cart-modal .cart-actions .btn.btn-primary:active,
+#product-modal .modal-actions .btn.btn-primary:hover,
+#product-modal .modal-actions .btn.btn-primary:focus,
+#product-modal .modal-actions .btn.btn-primary:active {
+  /* тот же градиент в интерактивных состояниях */
+  background-image: var(--call-gradient) !important;
+  background-color: transparent !important;
+  filter: none !important;
+  opacity: 1 !important;
+
+
+}
+
+/* Модалка корзины: увеличить логотип VK без изменения размеров SVG */
+#cart-modal .cart-actions .btn.btn-secondary {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;               /* чтобы масштаб не обрезался */
+}
+
+#cart-modal .cart-actions .btn.btn-secondary svg {
+  transform: scale(1.25);          /* подбери 1.2–1.35 по вкусу */
+  transform-origin: center;        /* масштаб из центра */
+}
+
+/* Отступ сверху для списка корзины и пустого состояния */
+#cart-modal .cart-list,
+#cart-modal .cart-empty {
+  margin-top: 40px !important; /* подбери значение */
+}
+
+#cart-modal .cart-footer {
+  display: flex;                  /* выровнять по одной линии с кнопками */
+  align-items: center;
+  gap: 12px;
+}
+
+#cart-modal .cart-footer .cart-total,
+#cart-modal .cart-total {
+  margin-left: auto;              /* уводим к правому краю */
+  text-align: right;
+  font-size: 18px;                /* больше */
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+
+/* Заголовок «Корзина»: ниже и правее */
+#cart-modal h2#cart-title.modal__title {
+  margin-top: 14px !important;    /* ниже */
+  margin-left: 20px !important;   /* правее */
+  font-size: 28px;
+}
+
+/* 1) Чёрный текст у всех основных кнопок */
+.btn,
+.btn.btn-primary,
+.btn.btn-secondary,
+button.btn,
+button.btn-primary,
+button.btn-secondary,
+.add-to-cart {
+  color: #000 !important;
+}
+
+/* 2) Та же фиксация цвета во всех интерактивных состояниях */
+.btn:hover, .btn:focus, .btn:active,
+.btn.btn-primary:hover, .btn.btn-primary:focus, .btn.btn-primary:active,
+.btn.btn-secondary:hover, .btn.btn-secondary:focus, .btn.btn-secondary:active,
+.add-to-cart:hover, .add-to-cart:focus, .add-to-cart:active {
+  color: #000 !important;
+  text-decoration: none !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* 3) SVG в кнопках: наследуем цвет текста и принудительно делаем чёрным */
+.btn svg,
+.btn svg path,
+.btn svg use,
+.btn svg circle,
+.btn svg rect,
+.btn svg line,
+.btn svg polygon,
+.btn svg polyline,
+.add-to-cart svg,
+.add-to-cart svg path {
+  color: #000 !important;            /* для currentColor */
+  fill: #000 !important;             /* перекрыть встроенный fill */
+  stroke: #000 !important;           /* если иконка контурная */
+}
+
+/* 4) Точечные места: модалки корзины/товара */
+#cart-modal .cart-actions .btn,
+#product-modal .modal-actions .btn {
+  color: #000 !important;
+}
+#cart-modal .cart-actions .btn svg,
+#product-modal .modal-actions .btn svg {
+  fill: #000 !important;
+  stroke: #000 !important;
+}
+
+/* Кнопки «В корзину» на карточках */
+button.btn.btn-primary.add-to-cart {
+  display: inline-flex;           /* держим иконку + текст на одной линии */
+  align-items: center;
+  justify-content: center;        /* центрируем контент */
+  gap: 8px;
+  white-space: nowrap !important; /* не переносим на новую строку */
+  overflow: visible !important;   /* не обрезаем содержимое */
+  text-overflow: clip !important; /* убираем троеточие */
+  min-width: 140px;               /* дайте кнопке место для полного текста */
+}
+
+/* Сам текст внутри кнопки, если обёрнут в span */
+button.btn.btn-primary.add-to-cart span,
+button.btn.btn-primary.add-to-cart .btn-text,
+button.btn.btn-primary.add-to-cart .cart-text {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: clip !important;
+}
+
+/* Уменьшить промежуток между SVG и текстом в кнопке «В корзину» */
+button.btn.btn-primary.add-to-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0px;         /* было 8px — подбери 4–6px по вкусу */
+  /* при необходимости можно ещё чуть уменьшить внутренние отступы: */
+  /* padding: 8px 12px; */
+}
+
+#product-modal a#modal-vk-btn.btn.btn-secondary svg,
+#product-modal a#modal-vk-btn.btn.btn-secondary svg * {
+  color: #fff !important;
+  fill:  #fff !important;
+  stroke:#fff !important;
+}
+
+/* Увеличить VK-кнопку в модалке товара (id: modal-vk-btn) */
+#product-modal a#modal-vk-btn.btn.btn-secondary {
+  width: 47.97px !important;     /* подбери 52–60px */
+  height: 47.97px !important;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 14px;
+}
+
+/* Иконку не масштабируем — сохраняем исходный размер */
+#product-modal a#modal-vk-btn.btn.btn-secondary svg {
+  width: auto;
+  height: auto;
+  transform: none !important;
+}
+
+
+/* Корзина: сделать VK-иконку белой адресно по id */
+#cart-modal a#modal-vk-btn.btn.btn-secondary svg,
+#cart-modal a#modal-vk-btn.btn.btn-secondary svg * {
+  color: #fff !important;
+  fill:  #fff !important;
+  stroke:#fff !important;
+}
+
+/* Резерв: если у VK-кнопки нет id или он отличается */
+#cart-modal .cart-actions a.btn.btn-secondary svg,
+#cart-modal .cart-actions a.btn.btn-secondary svg * {
+  color:#fff !important; 
+  fill:#fff !important; 
+  stroke:#fff !important;
+}
+
+/* Корзина: «Итого» — крупнее и ниже */
+#cart-modal .cart-total,
+#cart-modal div.cart-total {
+  font-size: 22px !important;     /* было ~18px */
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  margin-top: 6px !important;     /* опустить чуть ниже */
+  margin-left: auto !important;   /* прижать вправо */
+  text-align: right !important;
+}
