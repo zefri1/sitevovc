@@ -1,0 +1,138 @@
+/**
+ * Оптимизированные исправления тёмной темы - без утечек памяти
+ */
+
+/* Основные стили для SVG иконок - с оптимизацией */
+.icon,
+.icon svg,
+svg.icon {
+  transition: color 0.2s ease !important;
+}
+
+/* Иконки в светлой теме */
+[data-theme="light"] .icon svg,
+[data-theme="light"] svg.icon,
+[data-theme="light"] #cart-btn svg,
+[data-theme="light"] .add-to-cart svg,
+[data-theme="light"] .header-actions svg {
+  color: #1e293b !important;
+  stroke: currentColor !important;
+}
+
+/* Иконки в тёмной теме */
+[data-theme="dark"] .icon svg,
+[data-theme="dark"] svg.icon,
+[data-theme="dark"] #cart-btn svg,
+[data-theme="dark"] .add-to-cart svg,
+[data-theme="dark"] .header-actions svg {
+  color: #f1f5f9 !important;
+  stroke: currentColor !important;
+}
+
+/* VK иконки - особые правила */
+[data-theme="light"] svg use[href="#vk-icon"] {
+  fill: #1e293b !important;
+}
+
+[data-theme="dark"] svg use[href="#vk-icon"] {
+  fill: #f1f5f9 !important;
+}
+
+/* Модальные окна */
+[data-theme="light"] .modal svg,
+[data-theme="light"] .modal .icon svg {
+  color: #1e293b !important;
+  stroke: currentColor !important;
+}
+
+[data-theme="dark"] .modal svg,
+[data-theme="dark"] .modal .icon svg {
+  color: #f1f5f9 !important;
+  stroke: currentColor !important;
+}
+
+/* Переключатель темы */
+#theme-toggle {
+  transition: transform 0.2s ease !important;
+}
+
+#theme-toggle:hover {
+  transform: translateY(-2px) !important;
+}
+
+#theme-toggle .theme-icon {
+  transition: transform 0.2s ease !important;
+  font-size: 1.2rem;
+  display: inline-block;
+}
+
+#theme-toggle:active .theme-icon {
+  transform: scale(0.9) !important;
+}
+
+/* Оптимизированные переходы */
+body,
+.header,
+.modal__dialog,
+.product-card {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease !important;
+}
+
+/* Кнопки корзины */
+.add-to-cart {
+  transition: all 0.2s ease !important;
+}
+
+/* Улучшенные стили для контрастности */
+[data-theme="dark"] .action-btn:hover svg,
+[data-theme="light"] .action-btn:hover svg {
+  color: inherit !important;
+  stroke: currentColor !important;
+}
+
+/* Принудительное обновление цветов */
+[data-theme="light"] svg[data-theme-updated="light"],
+[data-theme="light"] .icon svg {
+  color: #1e293b !important;
+  stroke: currentColor !important;
+}
+
+[data-theme="dark"] svg[data-theme-updated="dark"],
+[data-theme="dark"] .icon svg {
+  color: #f1f5f9 !important;
+  stroke: currentColor !important;
+}
+
+/* Оптимизация: используем will-change только для активных элементов */
+#theme-toggle {
+  will-change: transform;
+}
+
+#theme-toggle:not(:hover):not(:active) {
+  will-change: auto;
+}
+
+.add-to-cart:hover {
+  will-change: transform;
+}
+
+.add-to-cart:not(:hover) {
+  will-change: auto;
+}
+
+/* Исправление проблем с contain */
+.product-card,
+.modal__dialog {
+  contain: layout style;
+}
+
+/* Оптимизированные селекторы - используем :is() для лучшей производительности */
+[data-theme="light"] :is(.icon svg, svg.icon, #cart-btn svg, .add-to-cart svg, .header-actions svg) {
+  color: #1e293b !important;
+  stroke: currentColor !important;
+}
+
+[data-theme="dark"] :is(.icon svg, svg.icon, #cart-btn svg, .add-to-cart svg, .header-actions svg) {
+  color: #f1f5f9 !important;
+  stroke: currentColor !important;
+}
