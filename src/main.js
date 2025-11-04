@@ -362,3 +362,149 @@ document.addEventListener('DOMContentLoaded', () => {
     attributeFilter: ['data-theme']
   });
 });
+
+// ===================== src/main.js =====================
+// Здесь может быть твоя существующая инициализация каталога/данных.
+// Если она в других модулях — оставь импорты как есть.
+// Пример (раскомментируй под свой проект):
+// import { initApp } from './app.js';
+// initApp();
+
+/* -----------------------------------------------
+   Мобильная панель фильтров (не влияет на десктоп)
+   Требования к DOM (уже есть в index.html):
+   - aside#filters-sidebar (источник фильтров)
+   - #filtersToolbar (кнопка "Фильтры")
+   - #filtersExtra .filters-panel (панель-аккордеон)
+   - #filtersExtraMount (точка монтирования внутри панели)
+-------------------------------------------------- */
+
+(function mobileFiltersPanel() {
+  const panel = document.getElementById('filtersExtra');
+  const mount = document.getElementById('filtersExtraMount');
+  const bar   = document.getElementById('filtersToolbar');
+  const aside = document.getElementById('filters-sidebar');
+  if (!panel || !mount || !bar || !aside) return;
+
+  // Активируемся только на мобиле
+  const mq = window.matchMedia('(max-width: 640px)');
+
+  let transferring = false;
+  function moveAll(src, dst) {
+    if (transferring) return;
+    transferring = true;
+    const frag = document.createDocumentFragment();
+    while (src.firstChild) frag.appendChild(src.firstChild);
+    dst.appendChild(frag);
+    transferring = false;
+  }
+
+  function toMobile() {
+    if (!mount.hasChildNodes() && aside.childNodes.length > 0) {
+      moveAll(aside, mount);
+    }
+    closePanel(); // закрыто по умолчанию
+  }
+
+  function toDesktop() {
+    if (!aside.hasChildNodes() && mount.childNodes.length > 0) {
+      moveAll(mount, aside);
+    }
+    closePanel();
+  }
+
+  // Наблюдаем за появлением фильтров в aside и переносим их в панель на мобиле
+  const asideObserver = new MutationObserver(() => {
+    if (mq.matches && aside.childNodes.length > 0) {
+      moveAll(aside, mount);
+      if (panel.classList.contains('open')) {
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    }
+  });
+  asideObserver.observe(aside, { childList: true, subtree: false });
+
+  // Открытие/закрытие панели
+  function openPanel() {
+    // принудительный перенос перед анимацией
+    if (mq.matches && !mount.hasChildNodes() && aside.childNodes.length > 0) {
+      moveAll(aside, mount);
+    }
+    panel.classList.add('open');
+    panel.style.maxHeight = '0px';
+    requestAnimationFrame(() => {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    });
+    bar.setAttribute('aria-expanded', 'true');
+  }
+
+  function closePanel() {
+    panel.classList.remove('open');
+    panel.style.maxHeight = '0px';
+    bar.setAttribute('aria-expanded', 'false');
+  }
+
+  // Управление
+  bar.addEventListener('pointerup', (e) => {
+    e.preventDefault();
+    (bar.getAttribute('aria-expanded') === 'true') ? closePanel() : openPanel();
+  });
+  bar.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      (bar.getAttribute('aria-expanded') === 'true') ? closePanel() : openPanel();
+    }
+  });
+
+  // Пересчёт высоты при изменениях контента
+  const ro = new ResizeObserver(() => {
+    if (panel.classList.contains('open')) {
+      panel.style.maxHeight = panel.scrollHeight + 'px';
+    }
+  });
+  ro.observe(mount);
+
+  // Синхронизация при смене брейкпоинта
+  function syncByViewport() {
+    if (mq.matches) toMobile();
+    else toDesktop();
+  }
+  mq.addEventListener('change', syncByViewport);
+
+  // Старт
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncByViewport, { once: true });
+  } else {
+    syncByViewport();
+  }
+  window.addEventListener('load', () => closePanel(), { once: true });
+
+  // Добавь это в блок mobileFiltersPanel ВНУТРИ IIFE сразу после проверки элементов:
+console.log('mobileFiltersPanel init:', { panel, mount, bar, aside });
+console.log('mq.matches:', mq.matches);
+
+// И модифицируй обработчик:
+bar.addEventListener('pointerup', (e) => {
+  console.log('pointerup fired', { expanded: bar.getAttribute('aria-expanded'), mq: mq.matches });
+  e.preventDefault();
+  (bar.getAttribute('aria-expanded') === 'true') ? closePanel() : openPanel();
+});
+
+function openPanel() {
+  console.log('openPanel called, mq.matches:', mq.matches, 'aside children:', aside.childNodes.length, 'mount children:', mount.childNodes.length);
+  if (mq.matches && !mount.hasChildNodes() && aside.childNodes.length > 0) {
+    console.log('moving from aside to mount');
+    moveAll(aside, mount);
+  }
+  panel.classList.add('open');
+  panel.style.maxHeight = '0px';
+  requestAnimationFrame(() => {
+    console.log('setting maxHeight to', panel.scrollHeight);
+    panel.style.maxHeight = panel.scrollHeight + 'px';
+  });
+  bar.setAttribute('aria-expanded', 'true');
+}
+
+
+
+})();
