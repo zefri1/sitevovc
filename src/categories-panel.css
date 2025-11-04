@@ -10,3 +10,75 @@
 
 /* Backward compat: hide old class if still present from cache */
 .category-navigation{display:none!important}
+
+/* ========== MOBILE FILTERS PANEL ========== */
+
+/* По умолчанию — скрыто везде, переопределяется медиазапросами */
+#filtersToolbar, #filtersExtra { display: none; }
+#filtersExtraMount { margin: 0; padding: 0; }
+
+/* На мобиле ≤640px */
+@media (max-width: 640px) {
+  /* Скрываем левый сайдбар фильтров */
+  .filters-sidebar { display: none !important; }
+  
+  /* Показываем кнопку фильтров */
+  #filtersToolbar { 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 12px;
+    margin-bottom: 12px;
+    border-radius: 12px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+  }
+  
+  /* Показываем саму мобильную панель */
+  #filtersExtra {
+    display: block;
+    overflow: hidden;
+    max-height: 0;
+    margin: 0 0 12px 0;
+    padding: 0;
+    transition: max-height 0.3s ease;
+    will-change: max-height;
+  }
+  
+  /* Когда панель открыта */
+  #filtersExtra.open {
+    max-height: none; /* JS установит конкретное значение через scrollHeight */
+  }
+  
+  /* Внутренний контейнер панели */
+  #filtersExtraMount {
+    display: grid;
+    gap: 12px;
+    padding: 12px;
+  }
+  
+  /* Карточка с фильтрами внутри панели */
+  .filters-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 12px;
+    display: grid;
+    gap: 8px;
+  }
+}
+
+/* На десктопе ≥641px */
+@media (min-width: 641px) {
+  /* Скрываем мобильные элементы */
+  #filtersToolbar { display: none !important; }
+  #filtersExtra { display: none !important; }
+  
+  /* Показываем левый сайдбар (если он есть) */
+  .filters-sidebar { display: block; }
+}
