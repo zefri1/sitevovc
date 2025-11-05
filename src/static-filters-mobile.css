@@ -1,0 +1,68 @@
+/* src/static-filters-mobile.css */
+
+/* Надёжный фикс для мобильных фильтров */
+@media (max-width: 640px) {
+  /* Скрываем десктопный sidebar */
+  .filters-sidebar {
+    display: none !important;
+  }
+
+  /* Показываем мобильный placeholder */
+  #mobile-filters-placeholder {
+    display: block !important;
+    width: 100% !important;
+    position: static !important;
+    z-index: auto !important;
+    clear: both !important;
+  }
+
+  /* Убеждаемся что все элементы фильтров видны */
+  #mobile-filters-placeholder .filters-panel {
+    display: contents !important; /* скрываем контейнер, но оставляем содержимое */
+  }
+
+  #mobile-filters-placeholder .filters-header,
+  #mobile-filters-placeholder .filters-content,
+  #mobile-filters-placeholder .filter-group,
+  #mobile-filters-placeholder .checkbox-group,
+  #mobile-filters-placeholder .checkbox-item {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    position: static !important;
+    z-index: auto !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  /* Скрываем старую мобильную логику */
+  #filtersExtra,
+  #filtersToolbar {
+    display: none !important;
+  }
+
+  /* Убеждаемся что controls-box сдвигается вниз после filters-content */
+  .products-area > .controls-box {
+    clear: both !important;
+    margin-top: 0 !important; /* убираем отступ */
+    position: relative !important;
+    z-index: 1 !important;
+  }
+
+  /* Убеждаемся что filters-content не имеет margin/padding конфликтов */
+  #mobile-filters-placeholder .filters-content {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
+/* На десктопе всё наоборот */
+@media (min-width: 641px) {
+  .filters-sidebar {
+    display: block !important;
+  }
+
+  #mobile-filters-placeholder {
+    display: none !important;
+  }
+}

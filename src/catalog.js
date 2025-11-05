@@ -232,7 +232,11 @@ class TileCatalog {
 
   bindEvents() {
     const searchInput = document.getElementById('search-input');
-    if (searchInput) searchInput.addEventListener('input', (e) => { this.filters.search = e.target.value.toLowerCase(); this.applyFilters(); });
+    if (searchInput) searchInput.addEventListener('input', (e) => {
+      e.stopPropagation(); // Предотвращаем всплытие события
+      this.filters.search = e.target.value.toLowerCase();
+      this.applyFilters();
+    });
 
     const mappings = [['#brand-filters','brands'],['#color-filters','colors'],['#country-filters','countries'],['#surface-filters','surfaces'],['#use-filters','uses'],['#struct-filters','structs'],['#category-filters','categories']];
     mappings.forEach(([sel,key])=>{
@@ -240,6 +244,7 @@ class TileCatalog {
       if(container){
         container.addEventListener('change',(e)=>{
           if(e.target.classList.contains('filter-checkbox')){
+            e.stopPropagation(); // Предотвращаем всплытие события
             this.filters[key] = this.filters[key]||new Set();
             if(e.target.checked) this.filters[key].add(e.target.value); else this.filters[key].delete(e.target.value);
             this.applyFilters();
@@ -249,7 +254,10 @@ class TileCatalog {
     });
 
     const clearBtn = document.getElementById('clear-filters');
-    if (clearBtn) clearBtn.addEventListener('click', () => { this.filters.search=''; Object.keys(this.filters).forEach(k=>{ if(this.filters[k] instanceof Set) this.filters[k].clear();}); document.querySelectorAll('.filter-checkbox').forEach(cb=>cb.checked=false); if(searchInput) searchInput.value=''; this.applyFilters(); });
+    if (clearBtn) clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // ← ЭТА СТРОКА
+      this.filters.search=''; Object.keys(this.filters).forEach(k=>{ if(this.filters[k] instanceof Set) this.filters[k].clear();}); document.querySelectorAll('.filter-checkbox').forEach(cb=>cb.checked=false); if(searchInput) searchInput.value=''; this.applyFilters();
+    });
 
     const sortSelect = document.getElementById('sort-select');
     if (sortSelect) sortSelect.addEventListener('change', (e) => { this.currentSort = e.target.value; this.applyFilters(); });

@@ -797,3 +797,1099 @@ button.btn.btn-primary.add-to-cart {
   margin-left: auto !important;   /* прижать вправо */
   text-align: right !important;
 }
+
+/* Показать ещё — как кнопка Позвонить */
+#showMoreBtn {
+  display: block;
+  margin: 20px auto 28px;
+  padding: 12px 22px;
+  min-height: 48px;
+  min-width: 240px;
+  max-width: 360px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: linear-gradient(180deg, #FFD452 0%, #F2B100 100%);
+  color: #111;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow:
+    0 2px 0 rgba(0,0,0,0.25) inset,
+    0 6px 16px rgba(0,0,0,0.25);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+
+/* Hover/Active анимация, как у шапки */
+#showMoreBtn:hover {
+  filter: brightness(1.03);
+  box-shadow:
+    0 2px 0 rgba(0,0,0,0.25) inset,
+    0 10px 24px rgba(0,0,0,0.30);
+}
+
+#showMoreBtn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 1px 0 rgba(0,0,0,0.25) inset,
+    0 6px 16px rgba(0,0,0,0.25);
+}
+
+/* Фокус-обводка для доступности */
+#showMoreBtn:focus-visible {
+  outline: 3px solid rgba(17, 96, 255, 0.9);
+  outline-offset: 2px;
+  border-radius: 16px;
+}
+
+/* Полное скрытие, когда JS ставит hidden */
+#showMoreBtn[hidden] {
+  display: none !important;
+}
+
+/* Показать ещё — без внутренней тени + свечение */
+#showMoreBtn {
+  display: block;
+  margin: 20px auto 28px;
+  padding: 12px 22px;
+  min-height: 48px;
+  min-width: 240px;
+  max-width: 360px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,0.15);
+  background: linear-gradient(180deg, #FFD452 0%, #F2B100 100%);
+  color: #111;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+
+  /* Убрали inset, добавили свечение вокруг */
+  box-shadow:
+    0 10px 24px rgba(0,0,0,0.30),
+    0 0 16px rgba(255,210,40,0.40) !important;
+
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+
+#showMoreBtn:hover {
+  filter: brightness(1.03);
+  box-shadow:
+    0 14px 28px rgba(0,0,0,0.34),
+    0 0 5px rgba(255,210,40,0.55) !important;
+}
+
+#showMoreBtn:active {
+  transform: translateY(1px);
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.28),
+    0 0 5px rgba(255,210,40,0.45) !important;
+}
+
+/* Фокус-обводка для клавиатуры */
+#showMoreBtn:focus-visible {
+  outline: 3px solid rgba(17, 96, 255, 0.9);
+  outline-offset: 2px;
+  border-radius: 16px;
+}
+
+/* Полностью скрывать, когда JS ставит hidden */
+#showMoreBtn[hidden] { display: none !important; }
+
+/* Показать ещё — стабильное и более мягкое свечение */
+#showMoreBtn {
+  /* единый цвет и сила свечения */
+  --glow-color: rgba(255, 210, 40, 0.35);
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.28),
+    0 0 14px var(--glow-color) !important;
+}
+
+/* Не меняем цвет/силу свечения на hover */
+#showMoreBtn:hover {
+  filter: none; /* отключаем изменение яркости */
+  box-shadow:
+    0 10px 20px rgba(0,0,0,0.30),
+    0 0 14px var(--glow-color) !important;
+}
+
+/* Нажатие — чуть слабее, но тем же цветом */
+#showMoreBtn:active {
+  box-shadow:
+    0 7px 16px rgba(0,0,0,0.26),
+    0 0 12px var(--glow-color) !important;
+}
+
+/* Полупрозрачная подпись в подвале */
+.site-credit {
+  margin-top: 8px;
+  width: 100%;
+  text-align: center;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, 0.55); /* полупрозрачный белый */
+  opacity: 0.75;
+  user-select: none;
+  pointer-events: none; /* не мешает кликам по ссылкам рядом */
+}
+
+/* В светлой теме можно сделать потемнее для контраста при необходимости */
+@media (prefers-color-scheme: light) {
+  .site-credit { color: rgba(0, 0, 0, 0.45); }
+}
+
+/* Меньшее и стабильное свечение */
+#showMoreBtn {
+  --glow-color: rgba(255, 210, 40, 0.22); /* было ~0.35 */
+  box-shadow:
+    0 6px 14px rgba(0,0,0,0.26),
+    0 0 8px var(--glow-color) !important; /* было 14px */
+}
+
+#showMoreBtn:hover {
+  box-shadow:
+    0 8px 16px rgba(0,0,0,0.28),
+    0 0 8px var(--glow-color) !important; /* тот же размер и цвет */
+}
+
+#showMoreBtn:active {
+  box-shadow:
+    0 6px 12px rgba(0,0,0,0.24),
+    0 0 6px var(--glow-color) !important;
+}
+
+#showMoreBtn {
+  display: inline-flex !important;          /* вместо block для корректного центрирования */
+  justify-content: center !important;       /* по горизонтали */
+  align-items: center !important;           /* по вертикали */
+  text-align: center !important;            /* на случай переноса */
+  padding: 12px 22px !important;            /* текущие отступы можно оставить */
+}
+
+/* Мобильная шапка */
+@media (max-width: 480px) {
+  .header .container { padding: 0 8px; }
+
+  .header .header-content {
+    gap: 8px;
+    align-items: center;
+  }
+
+  /* Логотип/бренд — компактнее */
+  .header .brand { gap: 8px; }
+  .header .logo-circle { width: 28px; height: 28px; }
+  .header .brand-info h1 { font-size: 16px; }
+  .header .brand-info .brand-tagline { display: none; }
+
+  /* Панель действий — компактные «пилюли» в одну строку с прокруткой */
+  .header-actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
+    gap: 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .header-actions::-webkit-scrollbar { display: none; }
+
+  .header .action-btn {
+    padding: 8px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 10px;
+  }
+  .header .action-btn .icon,
+  .header .action-btn svg { width: 18px; height: 18px; }
+
+  /* Кнопка «Позвонить» — только иконка на мобилке */
+  .header .action-btn[href^="tel:"] span:not(.icon) { display: none; }
+  .header .action-btn[href^="tel:"] { min-width: 40px; padding: 8px; }
+
+  /* Переключатель темы — не больше остальных */
+  #theme-toggle { min-width: 36px; }
+}
+
+/* Сетка карточек на мобилке — два столбца, если хватает места */
+@media (max-width: 480px) {
+  .products-grid.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .products-grid.grid-1 { grid-template-columns: 1fr; }
+  .card { border-radius: 10px; }
+}
+
+/* Кнопка «Показать ещё» — центр и компактные отступы */
+@media (max-width: 480px) {
+  #showMoreBtn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 16px auto 20px;
+    min-height: 44px;
+    min-width: 200px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+}
+
+/* Шапка в две строки на мобильных */
+@media (max-width: 640px) {
+  /* Контейнер шапки: две строки вместо одной */
+  .header .header-content {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    grid-auto-rows: min-content;
+    row-gap: 8px;
+    align-items: center;
+  }
+
+  /* 1-я строка — бренд */
+  .header .brand {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+
+  /* 2-я строка — действия: корзина, VK, позвонить, тема */
+  .header .header-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
+    gap: 8px;
+    justify-content: start;       /* влево по сетке */
+    overflow-x: auto;             /* если не влезло — скролл по оси X */
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .header .header-actions::-webkit-scrollbar { display: none; }
+
+  /* Кнопки действий — компактные */
+  .header .action-btn {
+    height: 36px;
+    min-width: 36px;
+    padding: 8px;
+    border-radius: 10px;
+  }
+  .header .action-btn .icon,
+  .header .action-btn svg { width: 18px; height: 18px; }
+}
+
+/* Мобильная шапка: крупнее бренд и центрирование */
+@media (max-width: 640px) {
+  /* Двухстрочная раскладка уже включена ранее */
+  .header .header-content {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    row-gap: 8px;
+  }
+
+  /* 1-я строка — бренд по центру */
+  .header .brand {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;   /* центрируем по горизонтали */
+    gap: 10px;
+    margin: 0;
+  }
+
+  /* Логотип больше */
+  .header .logo-circle {
+    width: 40px;               /* было ~28px */
+    height: 40px;
+  }
+
+  /* Текст «Плиточник» больше и без переноса */
+  .header .brand-info h1 {
+    font-size: 20px;           /* было ~16px */
+    line-height: 1.1;
+    white-space: nowrap;
+  }
+
+  /* Подзаголовок скрываем на мобилке, чтобы не ломал центр */
+  .header .brand-info .brand-tagline { display: none; }
+
+  /* 2-я строка — панель действий как раньше */
+  .header .header-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
+    gap: 8px;
+    justify-content: center;   /* центрируем ряд кнопок под брендом */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .header .header-actions::-webkit-scrollbar { display: none; }
+}
+
+/* Двухстрочная шапка — чистое центрирование и баланс размеров */
+@media (max-width: 640px) {
+  .header .header-content {
+    display: grid !important;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    padding: 6px 8px;
+  }
+
+  /* 1-я строка: бренд ровно по центру */
+  .header .brand {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .header .logo-circle {
+    width: 44px;           /* крупнее логотип */
+    height: 44px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.25);
+  }
+  .header .brand-info h1 {
+    font-size: 22px;       /* крупнее заголовок */
+    font-weight: 800;
+    letter-spacing: .2px;
+    margin: 0;
+    line-height: 1.1;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .header .brand-info .brand-tagline { display: none; } /* без подзаголовка */
+
+  /* 2-я строка: действия — одинаковые кнопки, равные интервалы, центр */
+  .header .header-actions {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min-content;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .header .header-actions::-webkit-scrollbar { display: none; }
+
+  .header .action-btn {
+    height: 40px;
+    min-width: 40px;
+    padding: 8px;
+    border-radius: 12px;
+  }
+  .header .action-btn .icon, .header .action-btn svg { width: 20px; height: 20px; }
+
+  /* Кнопка «Позвонить» — без расширения на всю ширину, только иконка на мобилке */
+  .header .action-btn[href^="tel:"] span:not(.icon) { display: none; }
+  .header .action-btn[href^="tel:"] { min-width: 44px; padding: 8px; }
+}
+
+/* Отступ сверху для ряда кнопок и устранение обрезания glow/фокуса */
+@media (max-width: 640px) {
+  /* Контейнер всей шапки — не обрезать тени */
+  .header { overflow: visible; }
+
+  /* Блок с действиями (вторая строка) — верхний отступ и отсутствие клиппинга */
+  .header .header-actions {
+    margin-top: 8px;           /* добавили отступ сверху */
+    padding-top: 2px;          /* микроподпор для тени */
+    overflow: visible !important; /* не обрезать свечение/фокус */
+  }
+
+  /* Кнопки: оставляем тени видимыми за пределами */
+  .header .action-btn { position: relative; z-index: 0; }
+  .header .action-btn:hover,
+  .header .action-btn:focus-visible {
+    z-index: 1;                /* выступает над фоном при ховере/фокусе */
+  }
+}
+
+/* На всех экранах: шапка не должна срезать свечение крупных кнопок */
+.header,
+.header .container,
+.header .header-content {
+  overflow: visible;
+}
+
+/* Дополнительный отступ сверху для шапки на мобилке */
+@media (max-width: 640px) {
+  .header { padding-top:4px; }           /* общий отступ сверху */
+  .header .container { padding-top: 4px; } /* мягкий внутренний отступ */
+
+  /* Чтобы центрирование бренда не «сплющивалось» из-за паддинга */
+  .header .brand {
+    justify-content: center;
+    margin-top: 4px;                       /* визуальный баланс с логотипом */
+  }
+}
+
+/* Мягкое разделение шапки и контента */
+.header {
+  position: relative;
+  z-index: 10;
+  /* тонкая внутренняя тень вниз для плавного перехода */
+  box-shadow: 0 2px 0 rgba(255,255,255,0.03) inset;
+}
+
+/* Псевдо-разделитель: полупрозрачный градиент вниз */
+.header::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 14px;                   /* высота растяжки */
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0,0,0,0.0),
+    rgba(0,0,0,0.14) 75%,
+    rgba(0,0,0,0.18)
+  );
+}
+
+/* Дополнительно ослабим «полосу» под шапкой, если есть */
+.main, .container + .search-bar, .filters-toolbar {
+  border-top: 1px solid rgba(255,255,255,0.05); /* еле заметная линия */
+}
+
+/* На мобильных — чуть мягче и выше градиент */
+@media (max-width: 640px) {
+  .header::after { height: 18px; background: linear-gradient(to bottom,
+      rgba(0,0,0,0.0),
+      rgba(0,0,0,0.12) 70%,
+      rgba(0,0,0,0.16)); }
+}
+
+/* Отступ снизу под рядом кнопок в шапке */
+@media (max-width: 640px) {
+  .header .header-actions {
+    margin-bottom: 10px;   /* основной отступ снизу */
+  }
+}
+
+/* Если используете отдельный внутренний контейнер шапки */
+.header .container { padding-bottom: 6px; } /* мягкий общий отступ */
+
+/* Ряд кнопок под брендом: ширина = ширине контента, симметричные поля */
+@media (max-width: 640px) {
+  /* Обёртка над кнопками — растягиваем на ширину контейнера */
+  .header .header-actions {
+    /* растягиваемся на ширину контейнера .container */
+    width: min(100%, var(--site-content-width, 1200px));
+    margin-left: auto;
+    margin-right: auto;
+
+    /* такие же боковые поля, как у карточек (подставьте свои, если есть переменная) */
+    padding-left: var(--content-padding, 16px);
+    padding-right: var(--content-padding, 16px);
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);  /* равные колонки под 4 кнопки */
+    gap: 10px;
+    justify-items: center;                  /* центрируем сами кнопки в ячейках */
+    margin-bottom: 10px;                    /* отступ до низа шапки */
+  }
+
+  /* Базовый размер всех кнопок — квадрат */
+  .header .action-btn {
+    width: 40px;
+    height: 40px;
+    min-width: 40px;
+    padding: 0;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .header .action-btn .icon, .header .action-btn svg { width: 20px; height: 20px; }
+
+  /* Телефон — компактная жёлтая пилюля, но не шире соседей */
+  .header .action-btn[href^="tel:"] {
+    width: 40px !important;
+    min-width: 40px !important;
+    background: linear-gradient(180deg, #FFD452 0%, #F2B100 100%);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.25), 0 0 8px rgba(255,210,40,0.22);
+    border-radius: 12px;
+  }
+  .header .action-btn[href^="tel:"] span:not(.icon) { display: none !important; }
+
+  /* Ховеры — единые для ряда */
+  .header .action-btn:hover { transform: translateY(-1px); transition: transform .12s ease; }
+  .header .action-btn:active { transform: translateY(0); }
+}
+
+/* Если в проекте есть точные значения полей у карточек — зафиксируйте их переменной */
+:root {
+  /* подправьте при необходимости под свою разметку карточек */
+  --content-padding: 16px;
+  /* чтобы при необходимости можно было зафиксировать максимальную ширину */
+  --site-content-width: 1200px;
+}
+
+/* Все action-кнопки в шапке: 44×40 */
+.header .action-btn {
+  width: 44px !important;
+  height: 40px !important;
+  min-width: 44px !important;
+  padding: 0 !important;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Телефон — такой же размер 44×40 и без текста */
+.header .action-btn[href^="tel:"] {
+  width: 44px !important;
+  height: 40px !important;
+  min-width: 44px !important;
+  padding: 0 !important;
+  border-radius: 12px !important;
+}
+.header .action-btn[href^="tel:"] span:not(.icon) { display: none !important; }
+
+/* Иконки внутри — оптический размер */
+.header .action-btn .icon,
+.header .action-btn svg {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+/* Ряд кнопок — аккуратное выравнивание и одинаковые колонки */
+@media (max-width: 640px) {
+  .header .header-actions {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 44px;  /* ширина колонки = ширине кнопки */
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 10px;      /* отступ до низа шапки */
+    padding: 0 var(--content-padding, 16px);
+  }
+}
+
+.filters-toggle{
+  display:none;
+  appearance:none;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.06);
+  color:#f1f5f9;
+  border-radius:12px;
+  padding:10px 14px;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* Панель с анимацией */
+.filters-panel{
+  overflow:hidden;
+  max-height:none;
+  opacity:1;
+  transform:none;
+  transition:max-height .28s ease, opacity .2s ease, transform .2s ease;
+}
+.filters-panel.open{ box-shadow:0 8px 18px rgba(0,0,0,.18); }
+
+/* Карточка внутри панели (под ваш серый стиль) */
+.filters-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  padding:14px;
+}
+
+/* Мобилка: свернуто по умолчанию, кнопка видна */
+@media (max-width:640px){
+  .filters-toggle{ display:inline-flex; align-items:center; gap:8px; }
+  .filters-panel{ max-height:0; opacity:0; transform:translateY(-4px); }
+  .filters-panel.open{ opacity:1; transform:translateY(0); }
+}
+
+.products-toolbar{
+  width:100%;
+  margin:0 0 8px;
+  padding:12px 16px;
+  border-radius:12px;
+  background:#334155;
+  color:#f1f5f9;
+  font-weight:700;
+  text-align:center;
+  cursor:pointer;
+  user-select:none;
+  border:1px solid rgba(255,255,255,.10);
+  box-shadow:0 1px 0 rgba(255,255,255,.03) inset;
+}
+.products-toolbar:hover{ filter:brightness(1.03); }
+.products-toolbar:active{ transform:translateY(1px); }
+
+.filters-panel{
+  overflow:hidden;
+  max-height:none;
+  opacity:1;
+  transform:none;
+  transition:max-height .28s ease, opacity .18s ease, transform .18s ease;
+}
+.filters-card{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;
+  padding:14px;
+}
+
+@media (max-width:640px){
+  .filters-panel{ max-height:0; opacity:0; transform:translateY(-4px); }
+  .filters-panel.open{ opacity:1; transform:translateY(0); }
+}
+@media (min-width:641px){
+  .products-toolbar{ display:none; }
+  .filters-panel{ max-height:none !important; opacity:1 !important; transform:none !important; }
+}
+
+/* Базово скрываем мобильную панель */
+
+
+/* Мобильный режим: показываем toolbar и мобильную панель, скрываем левый сайдбар */
+@media (max-width: 640px) {
+  .products-toolbar { display: block; }
+  #filtersExtra { display: block; }            /* управляется max-height в ваших стилях */
+  .filters-sidebar { display: none !important; }
+}
+
+/* Десктоп: скрыть мобильную панель, показать левый сайдбар */
+@media (min-width: 641px) {
+  .products-toolbar { display: none !important; }
+  #filtersExtra { display: none !important; }  /* полностью скрываем мобильную панель */
+  .filters-sidebar { display: block; }         /* ваш основной десктопный фильтр */
+}
+
+/* По умолчанию мобпанель скрыта */
+
+
+/* Мобилка */
+@media (max-width: 640px){
+  .products-toolbar { display: block; }
+  #filtersExtra { display: block; }
+  .filters-sidebar { display: none !important; }
+}
+
+/* Десктоп */
+@media (min-width: 641px){
+  .products-toolbar { display: none !important; }
+  #filtersExtra { display: none !important; }
+}
+
+/* только блок "Категории" сверху */
+#filters-sidebar h3.category-title,
+#filtersExtra  h3.category-title {
+  display: none !important;
+}
+
+/* сами пункты категорий (li, где есть .category-name) */
+#filters-sidebar li:has(.category-name),
+#filtersExtra  li:has(.category-name) {
+  display: none !important;
+}
+
+/* страховка на иной контейнер списка категорий */
+#filters-sidebar .categories-list,
+#filtersExtra  .categories-list {
+  display: none !important;
+}
+
+/* Скрыть только список верхних категорий */
+#filters-sidebar .category-list,
+#filtersExtra  .category-list {
+  display: none !important;
+}
+
+/* скрыть заголовок‑заглушку над списком */
+#filters-sidebar .category-header,
+#filtersExtra  .category-header {
+  display: none !important;
+}
+
+/* обнулить отступы контейнера, чтобы не осталось пустого места */
+#filters-sidebar .category-list {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* на мобилке (если переносится) */
+#filtersExtra .category-list {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* скрыть панель и обнулить её отступы */
+#filters-sidebar .categories-panel,
+#filtersExtra  .categories-panel {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* src/categories-panel.css или patches.css */
+@media (max-width: 640px) {
+  /* скрываем левую колонку фильтров и показываем тулбар */
+  .filters-sidebar { display: none; }
+
+  #filtersToolbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+  }
+
+  .filters-panel {
+    overflow: hidden;            /* важно для анимации высоты */
+    max-height: 0;               /* закрыто по умолчанию */
+    transition: max-height .3s ease;
+    will-change: max-height;
+  }
+
+  .filters-card {
+    background: var(--color-surface);
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: var(--shadow-sm);
+  }
+}
+
+/* на десктопе панель и тулбар выключены (опционально) */
+/* === FORCE MOBILE FILTERS (hotfix) === */
+
+/* Сбросить любые скрытия */
+#filtersToolbar,
+#filtersExtra { display: block !important; }
+.filters-sidebar { display: none !important; }
+
+/* Кнопка "Фильтры" — гарантированно видна на мобиле */
+#filtersToolbar {
+  display: flex !important;
+  align-items: center; justify-content: center;
+  width: 100%;
+  padding: 10px 12px;
+  margin: 12px 0;
+  border-radius: 12px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* Панель — управляется JS через max-height */
+#filtersExtra {
+  overflow: hidden !important;
+  /* по умолчанию закрыта */
+  max-height: 0 !important;
+  margin: 0 0 12px 0;
+  padding: 0;
+  transition: max-height .3s ease !important;
+  will-change: max-height;
+}
+
+/* При открытии (класс .open навешивает JS) — высоту ставит JS через scrollHeight */
+#filtersExtra.open { max-height: none !important; }
+
+#filtersExtraMount {
+  display: grid !important;
+  gap: 12px !important;
+  padding: 12px !important;
+}
+
+/* Десктоп: отключаем мобильные элементы (перекроет любые дубли) */
+@media (min-width: 641px) {
+  #filtersToolbar,
+  #filtersExtra { display: none !important; }
+  .filters-sidebar { display: block !important; }
+}
+
+/* Мобилка: принудительно включаем нужное поведение */
+@media (max-width: 640px) {
+  .filters-sidebar { display: block !important; }
+  #filtersToolbar { display: none !important; }
+  #filtersExtra { display: none !important; }
+}
+
+/* Mobile: поднять фильтры выше сортировки */
+@media (max-width: 768px) {
+  /* Гарантируем колоночный поток в верхнем блоке каталога */
+  .catalog-top,
+  .catalog-header,
+  .catalog-toolbar,
+  .catalog-controls-wrap {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Фильтры — первыми (универсальные селекторы с запасом) */
+  #filters-root,
+  #filters,
+  .filters,
+  .filters-panel,
+  [data-role="filters"] {
+    order: -1;            /* выше сортировки */
+    margin-bottom: 12px;  /* отступ от панели сортировки */
+    position: relative;
+    z-index: 3;
+  }
+
+  /* Панель сортировки — после фильтров */
+  #sort,
+  #sorting,
+  .sort,
+  .sort-bar,
+  .catalog-controls,
+  [data-role="sort"] {
+    order: 0;
+  }
+}
+
+/* Если верхний блок сделан на grid — альтернативная раскладка */
+@media (max-width: 768px) {
+  .catalog-grid-header {
+    display: grid;
+    grid-template-areas:
+      "filters"
+      "sort";
+    row-gap: 12px;
+  }
+  #filters-root, #filters, .filters, .filters-panel, [data-role="filters"] { grid-area: filters; }
+  #sort, #sorting, .sort, .sort-bar, .catalog-controls, [data-role="sort"] { grid-area: sort; }
+}
+
+/* Mobile: фильтры выше сортировки + без перекрытий */
+@media (max-width: 768px) {
+
+  /* 1) Контейнер каталога в одну колонку (универсальные селекторы) */
+  .catalog-layout,
+  .catalog-grid,
+  .page-grid,
+  .content-wrap,
+  .catalog-main,
+  .products-wrap {
+    display: block;                      /* вместо двух колонок */
+  }
+
+  /* 2) Фильтры — первыми и полноширинно */
+  #filters-root,
+  #filters,
+  .filters,
+  .filters-panel,
+  [data-role="filters"],
+  #filters-sidebar {
+    order: -1;                           /* поднять над сортировкой */
+    width: 100%;
+    margin-bottom: 12px;                 /* зазор до сортировки/товаров */
+    position: relative;
+    z-index: 3;                          /* поверх карточек при скролле */
+  }
+
+  /* 3) Панель сортировки — после фильтров */
+  #sort,
+  #sorting,
+  .sort,
+  .sort-bar,
+  .catalog-controls,
+  [data-role="sort"] {
+    order: 0;
+    width: 100%;
+  }
+
+  /* 4) Сбрасываем sticky/absolute у фильтров, если было в мобильных стилях */
+  .filters-panel,
+  .filters-content,
+  .filters-header {
+    position: static;
+  }
+
+  /* 5) Карточки товаров — в нормальном потоке и ниже фильтров */
+  .products,
+  .products-grid,
+  .catalog-list,
+  .catalog-content {
+    position: relative;
+    z-index: 1;
+    clear: both;                         /* на случай float-раскладки */
+  }
+
+  /* 6) Мелкий UX-твик: фон и скролл в блоках чекбоксов (как в FIXES.md) */
+  .checkbox-group {
+    max-height: 140px;
+    overflow-y: auto;
+    background: var(--color-surface, #333415);
+  }
+}
+
+/* Mobile: фильтры над сортировкой + без перекрытий */
+@media (max-width: 768px) {
+
+  /* 1) Нормализуем обёртки фильтров */
+  .filters-panel,
+  .filters-content,
+  .filters-header {
+    position: static !important;     /* убираем sticky/absolute */
+    transform: none !important;      /* снимаем translate/scale */
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 0 0 12px !important;     /* отступ до сортировки/товаров */
+    z-index: auto !important;
+    overflow: visible !important;
+    isolation: isolate;              /* новый stacking-context */
+    width: 100%;
+  }
+
+  /* 2) Перестраиваем верхний блок каталога в колонку,
+        чтобы order заработал на любых обёртках */
+  .catalog-top,
+  .catalog-header,
+  .catalog-toolbar,
+  .catalog-controls-wrap,
+  .filters-and-sort {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+
+  /* 3) Поднимаем фильтры, сортировку оставляем следом */
+  #filters-root,
+  #filters,
+  .filters,
+  .filters-panel,
+  [data-role="filters"] {
+    order: -1 !important;            /* фильтры выше */
+    width: 100%;
+  }
+  #sort,
+  #sorting,
+  .sort,
+  .sort-bar,
+  .catalog-controls,
+  [data-role="sort"] {
+    order: 0 !important;             /* сортировка ниже */
+    width: 100%;
+  }
+
+  /* 4) Карточки товаров ниже фильтров и без наложений */
+  .products,
+  .products-grid,
+  .catalog-list,
+  .catalog-content {
+    position: relative;
+    z-index: 1;
+    clear: both;
+    margin-top: 0 !important;        /* гасим возможные -margin */
+    padding-top: 0 !important;
+  }
+  .products-grid > * { position: relative; z-index: 1; }
+}
+
+/* Mobile hard fix: фильтры перед сортировкой и без наложений */
+@media (max-width: 768px) {
+
+  /* A) Нормализуем раскладку контейнеров каталога в один столбец */
+  .catalog-layout,
+  .catalog-grid,
+  .catalog-main,
+  .content-wrap,
+  .filters-and-sort,
+  .products-wrap {
+    display: block !important;            /* снимаем flex/grid двухколоночность */
+  }
+
+  /* На всякий случай для grid-реализаций */
+  .catalog-grid,
+  .products-grid {
+    grid-template-columns: 1fr !important;/* одна колонка карточек */
+    grid-auto-flow: row !important;
+  }
+
+  /* На случай float-раскладок */
+  .sidebar, .left, .catalog-sidebar, .catalog-content, .products, .products-grid {
+    float: none !important;
+    width: 100% !important;
+    clear: both !important;
+  }
+
+  /* B) Снимаем sticky/absolute/transform и stacking у блоков фильтров */
+  .filters-panel,
+  .filters-header,
+  .filters-content {
+    position: static !important;
+    transform: none !important;
+    top: auto !important; right: auto !important; bottom: auto !important; left: auto !important;
+    z-index: auto !important;
+    margin: 0 0 12px !important;          /* зазор до сортировки/товаров */
+    width: 100% !important;
+    overflow: visible !important;
+    isolation: isolate;                   /* свой контекст без перекрытий */
+  }
+
+  /* C) Порядок: фильтры — выше, сортировка — ниже */
+  #filters-root, #filters, .filters, .filters-panel { order: -1 !important; width: 100%; }
+  #sort, #sorting, .sort, .sort-bar, .catalog-controls { order: 0 !important; width: 100%; }
+
+  /* D) Карточки — ниже фильтров и в обычном слое */
+  .products, .products-grid, .catalog-list, .catalog-content {
+    position: relative !important;
+    z-index: 1 !important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* E) Внутренние списки фильтров — аккуратный скролл */
+  .checkbox-group {
+    max-height: 140px !important;
+    overflow-y: auto !important;
+    background: var(--color-surface, #333415) !important;
+  }
+}
+
+/* Mobile: визуально как у панели сортировки + сдвиг сортировки вниз */
+@media (max-width: 768px) {
+  /* Настраиваемый отступ сортировки (можешь поменять значение) */
+  :root { --mobile-sort-offset: 20px; } /* 20px по умолчанию */
+
+  /* Фильтры оформляем как controls-box (карточка) */
+  .filters-panel,
+  .filters-header,
+  .filters-content {
+    background: #334155 !important;                 /* как у сортировки */
+    border: 1px solid var(--color-border-light) !important;
+    border-radius: 12px !important;
+    padding: 12px !important;
+    box-shadow: 0 2px 10px rgba(0,0,0,.25) !important;
+  }
+
+  /* Шапка фильтров — ровные отступы и разделение с контентом */
+  .filters-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px !important;
+    margin: 0 0 8px !important;
+  }
+
+  /* Внутренние списки — аккуратный скролл (совместимо с существующими фикcами) */
+  .checkbox-group {
+    max-height: 140px !important;
+    overflow-y: auto !important;
+    background: rgba(255,255,255,0.04) !important;
+    border-radius: 8px !important;
+  }
+
+  /* Сдвигаем блок сортировки/вида ниже фильтров на заданный offset */
+  .controls-box,
+  .catalog-controls,
+  .sort,
+  .sort-bar {
+    margin-top: var(--mobile-sort-offset) !important;
+  }
+}

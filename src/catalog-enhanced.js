@@ -208,6 +208,8 @@ class TileCatalog {
     const structs = [...new Set(allStructs)].filter(Boolean).sort();
 
     const sidebar = document.getElementById('filters-sidebar');
+    const mobilePlaceholder = document.getElementById('mobile-filters-placeholder');
+
     const createFilterGroup = (title, items, id) => {
       if (!items || !Array.isArray(items) || items.length === 0) return '';
       return `
@@ -232,7 +234,7 @@ class TileCatalog {
       .filter(Boolean)
       .sort((a,b)=>a.localeCompare(b,'ru'));
 
-    sidebar.innerHTML = `
+    const filtersHtml = `
       <div class="filters-panel">
         <div class="filters-header">
           <h2>Фильтры</h2>
@@ -252,20 +254,46 @@ class TileCatalog {
           ${createFilterGroup('ЦВЕТ', colors, 'color-filters')}
         </div>
       </div>`;
+
+    // Вставляем фильтры только в мобильный placeholder на мобильных устройствах
+    if (mobilePlaceholder) {
+      if (window.matchMedia && window.matchMedia('(max-width: 640px)').matches) {
+        mobilePlaceholder.innerHTML = filtersHtml;
+      } else {
+        mobilePlaceholder.innerHTML = '';
+      }
+    }
+
+    // Вставляем фильтры в sidebar для десктопа
+    if (sidebar) sidebar.innerHTML = filtersHtml;
   }
 
   bindEvents() {
     const searchInput = document.getElementById('search-input');
-    if (searchInput) searchInput.addEventListener('input', (e) => { this.filters.search = e.target.value.toLowerCase(); this.applyFilters(); });
+    if (searchInput) searchInput.addEventListener('input', (e) => {
+      e.stopPropagation(); // Предотвращаем всплытие события
+      this.filters.search = e.target.value.toLowerCase();
+      this.applyFilters();
+    });
 
     const mappings = [['#brand-filters','brands'],['#color-filters','colors'],['#country-filters','countries'],['#surface-filters','surfaces'],['#use-filters','uses'],['#struct-filters','structs'],['#category-filters','categories']];
     mappings.forEach(([sel,key])=>{
       const container=document.querySelector(sel);
       if(container){
+        container.addEventListener('click',(e)=>{
+          if(e.target.classList.contains('filter-checkbox') || e.target.classList.contains('checkbox-text') || e.target.closest('.checkbox-item')){
+            e.stopPropagation(); // Предотвращаем всплытие события клика, чтобы не свернуть панель
+          }
+        });
         container.addEventListener('change',(e)=>{
           if(e.target.classList.contains('filter-checkbox')){
+            e.stopPropagation(); // Предотвращаем всплытие события, чтобы не свернуть панель
             this.filters[key] = this.filters[key]||new Set();
-            if(e.target.checked) this.filters[key].add(e.target.value); else this.filters[key].delete(e.target.value);
+            const before = Array.from(this.filters[key]);
+            const checked = e.target.checked;
+            const value = e.target.value;
+            if(checked) this.filters[key].add(value); else this.filters[key].delete(value);
+            const after = Array.from(this.filters[key]);
             this.applyFilters();
           }
         });
@@ -273,7 +301,8 @@ class TileCatalog {
     });
 
     const clearBtn = document.getElementById('clear-filters');
-    if (clearBtn) clearBtn.addEventListener('click', () => { 
+    if (clearBtn) clearBtn.addEventListener('click', (e) => {
+      e.stopPropagation(); // ← ЭТА СТРОКА
       this.clearAllFilters();
     });
 
@@ -288,13 +317,13 @@ class TileCatalog {
 
   clearAllFilters() {
     this.filters.search='';
-    Object.keys(this.filters).forEach(k=>{ 
+    Object.keys(this.filters).forEach(k=>{
       if(this.filters[k] instanceof Set) this.filters[k].clear();
     });
     document.querySelectorAll('.filter-checkbox').forEach(cb=>cb.checked=false);
     const searchInput = document.getElementById('search-input');
     if(searchInput) searchInput.value='';
-    if (this.categoryNavigator) { this.categoryNavigator.reset(); }
+    if (this.categoryNavigator && typeof this.categoryNavigator.reset === 'function') { this.categoryNavigator.reset(); }
     this.applyFilters();
   }
 

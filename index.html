@@ -16,9 +16,9 @@
   <link rel="stylesheet" href="/src/patches.css" />
   <link rel="stylesheet" href="/src/cart-button-fixes.css" />
   <link rel="stylesheet" href="/src/header-actions.pill.css" />
-  <link rel="stylesheet" href="/src/categories-marketplace.css" />
+  
   <link rel="stylesheet" href="/src/categories-panel.css" />
-  <link rel="stylesheet" href="/src/categories-panel.hide.css" />
+  <link rel="stylesheet" href="/src/static-filters-mobile.css" />
   <link rel="stylesheet" href="/src/scroll-fix.css" />
   <link rel="stylesheet" href="/src/sidebar-breadcrumbs-remove.css" />
   <link rel="stylesheet" href="/src/theme-fixes.css" />
@@ -121,6 +121,9 @@
       text-align: center;
       font-weight: 500;
     }
+    /* Скрывать кнопку полностью, когда выставлен hidden */
+    #showMoreBtn[hidden] { display: none !important; }
+
   </style>
   <script>
     window.SHEET_JSON_URL = 'https://kmtbot-d0pm.onrender.com/api/items';
@@ -130,18 +133,241 @@
   </script>
 </head>
 <body>
-  <div id="loading-screen" class="loading-screen"><div class="loading-content"><div class="loading-logo">🏠</div><div class="loading-text">Загружаем каталог...</div><div class="loading-spinner"></div></div></div>
+  <div id="loading-screen" class="loading-screen">
+    <div class="loading-content">
+      <div class="loading-logo">🏠</div>
+      <div class="loading-text">Загружаем каталог</div>
+      <div class="loading-spinner"></div>
+    </div>
+  </div>
 
-  <header class="header"><div class="container"><div class="header-content"><div class="brand"><div class="logo"><div class="logo-circle"><img src="cat.png" alt="Плиточник" loading="lazy"/></div></div><div class="brand-info"><h1>Плиточник</h1><p class="brand-tagline">Каталог керамической плитки</p></div></div><div class="header-actions"><button id="cart-btn" class="action-btn" title="Корзина" aria-label="Корзина"><svg class="icon"><use href="#cart-icon"></use></svg></button><a href="tel:+74951234567" class="action-btn" title="Позвонить" aria-label="Позвонить"><span class="icon">📞</span><span>Позвонить</span></a><a href="https://vk.com/plitochik44" target="_blank" class="action-btn" title="VK" aria-label="VK"><svg class="icon"><use href="#vk-icon"></use></svg></a><button id="theme-toggle" class="action-btn" title="Сменить тему" aria-label="Сменить тему"><span class="theme-icon">🌙</span></button></div></div></div></header>
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="brand">
+          <div class="logo">
+            <div class="logo-circle">
+              <img src="cat.png" alt="Плиточник" loading="lazy"/>
+            </div>
+          </div>
+          <div class="brand-info">
+            <h1>Плиточник</h1>
+            <p class="brand-tagline">Каталог керамической плитки</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="cart-btn" class="action-btn" title="Корзина" aria-label="Корзина">
+            <svg class="icon"><use href="#cart-icon"></use></svg>
+          </button>
+          <a href="tel:+74951234567" class="action-btn" title="Позвонить" aria-label="Позвонить">
+            <span class="icon">📞</span><span>Позвонить</span>
+          </a>
+          <a href="https://vk.com/plitochik44" target="_blank" class="action-btn" title="VK" aria-label="VK">
+            <svg class="icon"><use href="#vk-icon"></use></svg>
+          </a>
+          <button id="theme-toggle" class="action-btn" title="Сменить тему" aria-label="Сменить тему">
+            <span class="theme-icon">🌙</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
 
-  <main class="main"><div class="container"><div class="catalog-layout"><aside id="filters-sidebar" class="filters-sidebar"></aside><section class="products-area"><div class="products-toolbar"></div><div id="filters-collapsible" class="filters-collapsible"></div><div class="controls-box"><div class="sort-control"><label class="sort-label" for="sort-select">Сортировка:</label><select id="sort-select" class="sort-select"><option value="price-asc">По цене ↑</option><option value="price-desc">По цене ↓</option><option value="name-asc">По названию А-Я</option><option value="name-desc">По названию Я-А</option></select></div><div class="view-controls" role="group" aria-label="Вид"><label class="view-label">Вид:</label><div class="view-buttons"><button id="view-grid-1" class="view-btn" data-columns="1" aria-pressed="false"><span class="view-digit view-digit--mobile">1</span><span class="view-digit view-digit--desktop">4</span></button><button id="view-grid-2" class="view-btn active" data-columns="2" aria-pressed="true"><span class="view-digit view-digit--mobile">2</span><span class="view-digit view-digit--desktop">5</span></button></div></div><div class="results-info"><span id="results-count">Найдено товаров: 0</span></div></div><div id="products-grid" class="products-grid grid-2"></div><div id="no-results" class="no-results hidden"><div class="no-results-content"><div class="no-results-icon">🔍</div><h3>Товары не найдены</h3><p>Попробуйте изменить параметры поиска</p></div></div></section></div></div></main>
+  <main class="main">
+    <div class="container">
+      <div class="catalog-layout">
+        <!-- Десктопный сайдбар с фильтрами -->
+        <aside id="filters-sidebar" class="filters-sidebar">
+          <div id="filters" class="filters-collapsible"></div>
+          <div id="filters-root"></div>
+        </aside>
+        
+        
+  
+        <section class="products-area">
+          <!-- Фильтры на мобильных (перенесены выше сортировки) -->
+          <div id="mobile-filters-placeholder"></div>
 
-  <footer class="footer"><div class="container"><div class="footer-content"><div class="footer-info"><p>© 2025 Плиточник. Все права защищены.</p><p>Телефон: <a href="tel:+74951234567">+7 (495) 123-45-67</a></p></div><div class="footer-links"><a href="https://vk.com/plitochik44" target="_blank">VK</a></div></div></div></footer>
+          <!-- Всегда видимые элементы управления -->
+          <div class="controls-box">
+            <div class="sort-control">
+              <label class="sort-label" for="sort-select">Сортировка:</label>
+              <select id="sort-select" class="sort-select">
+                <option value="price-asc">По цене ↑</option>
+                <option value="price-desc">По цене ↓</option>
+                <option value="name-asc">По названию А-Я</option>
+                <option value="name-desc">По названию Я-А</option>
+              </select>
+            </div>
 
-  <div id="product-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal__backdrop"></div><div class="modal__dialog" role="document"><button class="modal__close" type="button" aria-label="Закрыть">✕</button><div class="modal__content"><div class="modal__media"><div class="modal__image-wrap"><img id="modal-image" alt=""/><div id="modal-image-ph" class="modal__placeholder">🏠</div></div></div><div class="modal__details"><h2 id="modal-title" class="modal__title"></h2><div class="modal__price-row"><div id="modal-price" class="modal__price"></div><div id="modal-badges" class="modal__badges"></div></div><div class="modal__meta"><div class="meta-item"><span>Бренд:</span> <strong id="modal-brand"></strong></div><div class="meta-item"><span>Цвет:</span> <strong id="modal-color"></strong></div><div class="meta-item"><span>Статус:</span> <strong id="modal-status"></strong></div></div><p id="modal-desc" class="modal__desc"></p><div class="modal__actions"><button id="modal-add-to-cart" class="btn btn-secondary add-to-cart" data-id=""><svg class="icon"><use href="#cart-icon"></use></svg><span class="cart-text">В корзину</span></button><a id="modal-phone-btn" href="tel:+74951234567" class="btn btn-primary">📞 Позвонить</a><a id="modal-vk-btn" href="https://vk.com/plitochik44" target="_blank" class="btn btn-secondary" title="Написать в VK" aria-label="Написать в VK"><svg class="icon"><use href="#vk-icon"></use></svg></a></div></div></div></div></div>
+            <div class="view-controls" role="group" aria-label="Вид">
+              <label class="view-label">Вид:</label>
+              <div class="view-buttons">
+                <button id="view-grid-1" class="view-btn" data-columns="1" aria-pressed="false">
+                  <span class="view-digit view-digit--mobile">1</span>
+                  <span class="view-digit view-digit--desktop">4</span>
+                </button>
+                <button id="view-grid-2" class="view-btn active" data-columns="2" aria-pressed="true">
+                  <span class="view-digit view-digit--mobile">2</span>
+                  <span class="view-digit view-digit--desktop">5</span>
+                </button>
+              </div>
+            </div>
 
-  <div id="cart-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cart-title"><div class="modal__backdrop"></div><div class="modal__dialog" role="document"><button class="modal__close" type="button" aria-label="Закрыть">✕</button><div class="modal__content" style="grid-template-columns: 1fr;"><div class="cart"><h2 id="cart-title" class="modal__title">Корзина</h2><div id="cart-list" class="cart-list"><div class="cart-empty"><div class="cart-empty-icon"><svg class="icon"><use href="#cart-icon"></use></svg></div><p>Корзина пуста</p></div></div><div class="cart-footer"><div class="cart-total">Итого: <strong id="cart-total">0 ₽</strong></div><div class="cart-actions"><a href="https://vk.com/plitochik44" target="_blank" class="btn btn-secondary" title="Написать в VK" aria-label="Написать в VK"><svg class="icon"><use href="#vk-icon"></use></svg></a><a href="tel:+74951234567" class="btn btn-primary">📞 Позвонить</a></div></div></div></div></div></div>
+            <div class="results-info">
+              <span id="results-count">Найдено товаров: 0</span>
+            </div>
+          </div>
 
-  <script type="module" src="/src/main.js"></script>
-</body>
+          <!-- Сетка товаров -->
+          <div id="products-grid" class="products-grid grid-2"></div>
+  
+          <!-- Показать ещё -->
+          <button id="showMoreBtn" class="btn btn-secondary" hidden>Показать ещё</button>
+  
+          <!-- Нет результатов -->
+          <div id="no-results" class="no-results hidden">
+            <div class="no-results-content">
+              <div class="no-results-icon">🔍</div>
+              <h3>Товары не найдены</h3>
+              <p>Попробуйте изменить параметры поиска</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+  </main>
+  
+  
+  
+  
+  
+  
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-info">
+          <p>© 2025 Плиточник. Все права защищены.</p>
+          <p>Телефон: <a href="tel:+74951234567">+7 (495) 123-45-67</a></p>
+        </div>
+       
+        </div>
+      <!-- ДОБАВИТЬ: полупрозрачная подпись -->
+          <div class="site-credit">сайт делал @Lleshaav</div>
+        </div>
+    </div>
+  </footer>
+
+  <!-- Модалка товара -->
+  <div id="product-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal__backdrop"></div>
+    <div class="modal__dialog" role="document">
+      <button class="modal__close" type="button" aria-label="Закрыть">✕</button>
+      <div class="modal__content">
+        <div class="modal__media">
+          <div class="modal__image-wrap">
+            <img id="modal-image" alt=""/>
+            <div id="modal-image-ph" class="modal__placeholder">🏠</div>
+          </div>
+        </div>
+        <div class="modal__details">
+          <h2 id="modal-title" class="modal__title"></h2>
+          <div class="modal__price-row">
+            <div id="modal-price" class="modal__price"></div>
+            <div id="modal-badges" class="modal__badges"></div>
+          </div>
+          <div class="modal__meta">
+            <div class="meta-item"><span>Бренд:</span> <strong id="modal-brand"></strong></div>
+            <div class="meta-item"><span>Цвет:</span> <strong id="modal-color"></strong></div>
+            <div class="meta-item"><span>Статус:</span> <strong id="modal-status"></strong></div>
+          </div>
+          <p id="modal-desc" class="modal__desc"></p>
+          <div class="modal__actions">
+            <button id="modal-add-to-cart" class="btn btn-secondary add-to-cart" data-id="">
+              <svg class="icon"><use href="#cart-icon"></use></svg>
+              <span class="cart-text">В корзину</span>
+            </button>
+            <a id="modal-phone-btn" href="tel:+74951234567" class="btn btn-primary">📞 Позвонить</a>
+            <a id="modal-vk-btn" href="https://vk.com/plitochik44" target="_blank" class="btn btn-secondary" title="Написать в VK" aria-label="Написать в VK">
+              <svg class="icon"><use href="#vk-icon"></use></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Модалка корзины -->
+  <div id="cart-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="cart-title">
+    <div class="modal__backdrop"></div>
+    <div class="modal__dialog" role="document">
+      <button class="modal__close" type="button" aria-label="Закрыть">✕</button>
+      <div class="modal__content" style="grid-template-columns: 1fr;">
+        <div class="cart">
+          <h2 id="cart-title" class="modal__title">Корзина</h2>
+          <div id="cart-list" class="cart-list">
+            <div class="cart-empty">
+              <div class="cart-empty-icon"><svg class="icon"><use href="#cart-icon"></use></svg></div>
+              <p>Корзина пуста</p>
+            </div>
+          </div>
+          <div class="cart-footer">
+            <div class="cart-total">Итого: <strong id="cart-total">0 ₽</strong></div>
+            <div class="cart-actions">
+              <a href="https://vk.com/plitochik44" target="_blank" class="btn btn-secondary" title="Написать в VK" aria-label="Написать в VK">
+                <svg class="icon"><use href="#vk-icon"></use></svg>
+              </a>
+              <a href="tel:+74951234567" class="btn btn-primary">📞 Позвонить</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Основной скрипт приложения -->
+  
+
+  <!-- Пагинация по 50 без сдвига экрана -->
+  <script type="module">
+    const PAGE_SIZE = 50;
+    const grid = document.getElementById('products-grid');
+    const btn  = document.getElementById('showMoreBtn');
+    let shown = 0;
+  
+    function updateButton(total) {
+      const shouldHide = shown >= total || total === 0;
+      btn.hidden = shouldHide;                // для доступности
+      btn.style.display = shouldHide ? 'none' : 'block'; // на случай переопределений CSS
+    }
+  
+    function render(reset = false) {
+      if (!grid) return;
+      const items = Array.from(grid.children);
+      if (reset) shown = Math.min(PAGE_SIZE, items.length);
+  
+      for (let i = 0; i < items.length; i++) {
+        items[i].style.display = i < shown ? '' : 'none';
+      }
+      updateButton(items.length);
+    }
+  
+    btn?.addEventListener('click', () => {
+      const y = window.scrollY;
+      const total = grid.children.length;
+      shown = Math.min(shown + PAGE_SIZE, total);
+      render(false);
+      window.scrollTo({ top: y });
+    });
+  
+    const mo = new MutationObserver(() => render(true));
+    if (grid) mo.observe(grid, { childList: true });
+  
+    document.addEventListener('DOMContentLoaded', () => render(true));
+  </script>
+  
+
 </html>

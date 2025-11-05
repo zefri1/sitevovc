@@ -473,10 +473,9 @@ input, button, textarea, select {
   #filters-collapsible{display:none!important} 
   .products-toolbar{display:none!important}
 }
-@media (max-width: 768px) { 
-  #filters-sidebar{display:none} 
-  .products-toolbar{display:block!important}
-}
+@media (max-width: 768px) {
+   .products-toolbar{display:block!important}
+ }
 
 .filters-collapsible{display:none;overflow:hidden;transition:max-height var(--transition-normal),opacity var(--transition-normal)}
 .filters-collapsible.open{display:block}
